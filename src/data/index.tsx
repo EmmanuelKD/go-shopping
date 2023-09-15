@@ -1,3 +1,4 @@
+import { ProductType } from "@/components/product-listing-card";
 import { TestimonialType } from "@/components/testimonials-card";
 import { routes } from "@/config";
 
@@ -61,7 +62,7 @@ export const navigation = {
     },
   ],
   pages: [
-    { name: "Electronics", href:routes.home.productListing },
+    { name: "Electronics", href: routes.home.productListing },
     { name: "ebooks", href: "#" },
     { name: "Company", href: "#" },
     { name: "Stores", href: "#" },
@@ -182,62 +183,152 @@ export const collections = [
     href: "#",
   },
 ];
-export const testimonials:TestimonialType[] = [
+export const testimonials: TestimonialType[] = [
   {
     id: "jkhvbn",
     quote:
       "My order arrived super quickly. The product is even better than I hoped it would be. Very happy customer over here!",
     attribution: "Sarah Peters, New Orleans",
-    img:"https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
+    img: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
     name: "Tom Cook",
-
   },
   {
     id: "lkjhbsnjn",
     quote:
       "I had to return a purchase that didn’t fit. The whole process was so simple that I ended up ordering two new items!",
     attribution: "Kelly McPherson, Chicago",
-    img:"https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-    name: "Tom Cook"
+    img: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
+    name: "Tom Cook",
   },
   {
     id: "lksjdlf",
     quote:
       "Now that I’m on holiday for the summer, I’ll probably order a few more shirts. It’s just so convenient, and I know the quality will always be there.",
     attribution: "Chris Paul, Phoenix",
-    img:"https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-    name: "Tom Cook"
+    img: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
+    name: "Tom Cook",
   },
   {
     id: "klkdnfknklsnd",
     quote:
       "Now that I’m on holiday for the summer, I’ll probably order a few more shirts. It’s just so convenient, and I know the quality will always be there.",
     attribution: "Chris Paul, Phoenix",
-    img:"https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-    name: "Tom Cook"
+    img: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
+    name: "Tom Cook",
   },
   {
     id: "lksojejrfpijrfjdlf",
     quote:
       "Now that I’m on holiday for the summer, I’ll probably order a few more shirts. It’s just so convenient, and I know the quality will always be there.",
     attribution: "Chris Paul, Phoenix",
-    img:"https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-    name: "Tom Cook"
+    img: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
+    name: "Tom Cook",
   },
   {
     id: "lksjoejriofjperdlf",
     quote:
       "Now that I’m on holiday for the summer, I’ll probably order a few more shirts. It’s just so convenient, and I know the quality will always be there.",
     attribution: "Chris Paul, Phoenix",
-    img:"https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-    name: "Tom Cook"
+    img: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
+    name: "Tom Cook",
   },
   {
     id: "sjdoifod",
     quote:
       "Now that I’m on holiday for the summer, I’ll probably order a few more shirts. It’s just so convenient, and I know the quality will always be there.",
     attribution: "Chris Paul, Phoenix",
-    img:"https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-    name: "Tom Cook"
+    img: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
+    name: "Tom Cook",
+  },
+];
+
+export const products: ProductType[] = [
+  {
+    id: "jnkdsjfsd",
+    name: "Organize Basic Set (Walnut)",
+    price: 149,
+    rating: 5,
+    reviewCount: 38,
+    imageSrc:
+      "https://tailwindui.com/img/ecommerce-images/category-page-05-image-card-01.jpg",
+    imageAlt: "TODO",
+    href: "#",
+  },
+  {
+    id: "jnkdsjfsd;lm,;lm",
+    name: "Organize Pen Holder",
+    price: 15,
+    rating: 5,
+    reviewCount: 18,
+    imageSrc:
+      "https://tailwindui.com/img/ecommerce-images/category-page-05-image-card-02.jpg",
+    imageAlt: "TODO",
+    href: "#",
+  },
+  {
+    id: "jnkdknlknlsjfsd",
+    name: "Organize Sticky Note Holder",
+    price: 15,
+    rating: 5,
+    reviewCount: 14,
+    imageSrc:
+      "https://tailwindui.com/img/ecommerce-images/category-page-05-image-card-03.jpg",
+    imageAlt: "TODO",
+    href: "#",
+  },
+  {
+    id: "jnlmkkdsjfssd",
+    name: "Organize Phone Holder",
+    price: 15,
+    rating: 4,
+    reviewCount: 21,
+    imageSrc:
+      "https://tailwindui.com/img/ecommerce-images/category-page-05-image-card-04.jpg",
+    imageAlt: "TODO",
+    href: "#",
+  },
+  {
+    id: "jnkdkklnlknlsjfsd",
+    name: "Organize Sticky Note Holder",
+    price: 15,
+    rating: 5,
+    reviewCount: 14,
+    imageSrc:
+      "https://tailwindui.com/img/ecommerce-images/category-page-05-image-card-03.jpg",
+    imageAlt: "TODO",
+    href: "#",
+  },
+  {
+    id: "jnlmkkdojosjfssd",
+    name: "Organize Phone Holder",
+    price: 15,
+    rating: 4,
+    reviewCount: 21,
+    imageSrc:
+      "https://tailwindui.com/img/ecommerce-images/category-page-05-image-card-04.jpg",
+    imageAlt: "TODO",
+    href: "#",
+  },
+  {
+    id: "jnkdknlihjlkknlsjfsd",
+    name: "Organize Sticky Note Holder",
+    price: 15,
+    rating: 5,
+    reviewCount: 14,
+    imageSrc:
+      "https://tailwindui.com/img/ecommerce-images/category-page-05-image-card-03.jpg",
+    imageAlt: "TODO",
+    href: "#",
+  },
+  {
+    id: "jnlmkkdoijoksjfssd",
+    name: "Organize Phone Holder",
+    price: 15,
+    rating: 4,
+    reviewCount: 21,
+    imageSrc:
+      "https://tailwindui.com/img/ecommerce-images/category-page-05-image-card-04.jpg",
+    imageAlt: "TODO",
+    href: "#",
   },
 ];

@@ -7,7 +7,7 @@ import AppLayout from "@/app/layouts/app-layout";
 export default function Listing() {
   return (
     <AppLayout>
-
-      <ProductLayout/>
-</AppLayout>  );
+      <ProductLayout />
+    </AppLayout>
+  );
 }
