@@ -1,4 +1,5 @@
 import { TestimonialType } from "@/components/testimonials-card";
+import { routes } from "@/config";
 
 export const navigation = {
   categories: [
@@ -60,6 +61,8 @@ export const navigation = {
     },
   ],
   pages: [
+    { name: "Electronics", href:routes.home.productListing },
+    { name: "ebooks", href: "#" },
     { name: "Company", href: "#" },
     { name: "Stores", href: "#" },
   ],
@@ -86,7 +89,55 @@ export const offers = [
 ];
 export const trendingProducts = [
   {
-    id: 1,
+    id: "knskbdjf",
+    name: "Machined Pen",
+    color: "Black",
+    price: "$35",
+    href: "#",
+    imageSrc:
+      "https://tailwindui.com/img/ecommerce-images/home-page-02-product-01.jpg",
+    imageAlt:
+      "Black machined steel pen with hexagonal grip and small white logo at top.",
+    availableColors: [
+      { name: "Black", colorBg: "#111827" },
+      { name: "Brass", colorBg: "#FDE68A" },
+      { name: "Chrome", colorBg: "#E5E7EB" },
+    ],
+  },
+  {
+    id: "lkslnkjdbfkjhb",
+    name: "Machined Pen",
+    color: "Black",
+    price: "$35",
+    href: "#",
+    imageSrc:
+      "https://tailwindui.com/img/ecommerce-images/home-page-02-product-01.jpg",
+    imageAlt:
+      "Black machined steel pen with hexagonal grip and small white logo at top.",
+    availableColors: [
+      { name: "Black", colorBg: "#111827" },
+      { name: "Brass", colorBg: "#FDE68A" },
+      { name: "Chrome", colorBg: "#E5E7EB" },
+    ],
+  },
+  {
+    id: "kwdhbfsd",
+    name: "Machined Pen",
+    color: "Black",
+    price: "$35",
+    href: "#",
+    imageSrc:
+      "https://tailwindui.com/img/ecommerce-images/home-page-02-product-01.jpg",
+    imageAlt:
+      "Black machined steel pen with hexagonal grip and small white logo at top.",
+    availableColors: [
+      { name: "Black", colorBg: "#111827" },
+      { name: "Brass", colorBg: "#FDE68A" },
+      { name: "Chrome", colorBg: "#E5E7EB" },
+    ],
+  },
+  {
+    id: "oprjje",
     name: "Machined Pen",
     color: "Black",
     price: "$35",

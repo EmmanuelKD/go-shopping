@@ -1,13 +1,8 @@
 "use client";
-import { routes } from "@/config";
 import { AuthContext } from "@/context/auth";
-import { Popover, Transition } from "@headlessui/react";
-import Link from "next/link";
-import { Fragment, useContext, useEffect, useState } from "react";
-import Logo from "./logo";
 import { useDrawer } from "@/hook/use-drawer";
-import Cart from "./cart";
-
+import { useContext, useState } from "react";
+import Logo from "./logo";
 
 const footerNavigation = {
   products: [
@@ -41,13 +36,13 @@ const footerNavigation = {
     { name: "Shipping Policy", href: "#" },
   ],
   bottomLinks: [
-    { name: "Accessibility", href: "#" },
+    // { name: "Accessibility", href: "#" },
     { name: "Privacy", href: "#" },
     { name: "Terms", href: "#" },
   ],
 };
 
-export default function HomeFooter() {
+export default function HomeFooter({ isLanding }: { isLanding?: boolean }) {
   const { isAuthorized } = useContext(AuthContext);
 
   const [isShowing, setIsShowing] = useState(false);
@@ -63,11 +58,7 @@ export default function HomeFooter() {
         <div className="border-t border-gray-200">
           <div className="pb-20 pt-16">
             <div className="md:flex md:justify-center">
-              <img
-                src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-                alt=""
-                className="h-8 w-auto"
-              />
+              <Logo />
             </div>
             <div className="mx-auto mt-16 max-w-5xl xl:grid xl:grid-cols-2 xl:gap-8">
               <div className="grid grid-cols-2 gap-8 xl:col-span-2">
@@ -145,65 +136,67 @@ export default function HomeFooter() {
             </div>
           </div>
 
-          <div className="lg:grid lg:grid-cols-2 lg:gap-x-6 xl:gap-x-8">
-            <div className="flex items-center rounded-lg bg-gray-100 p-6 sm:p-10">
-              <div className="mx-auto max-w-sm">
-                <h3 className="font-semibold text-gray-900">
-                  Sign up for our newsletter
-                </h3>
-                <p className="mt-2 text-sm text-gray-500">
-                  The latest news, articles, and resources, sent to your inbox
-                  weekly.
-                </p>
-                <form className="mt-4 sm:mt-6 sm:flex">
-                  <label htmlFor="email-address" className="sr-only">
-                    Email address
-                  </label>
-                  <input
-                    id="email-address"
-                    type="text"
-                    autoComplete="email"
-                    required
-                    className="w-full min-w-0 appearance-none rounded-md border border-gray-300 bg-white px-4 py-2 text-base text-gray-900 placeholder-gray-500 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
-                  />
-                  <div className="mt-3 sm:ml-4 sm:mt-0 sm:flex-shrink-0">
-                    <button
-                      type="submit"
-                      className="flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-white"
-                    >
-                      Sign up
-                    </button>
-                  </div>
-                </form>
+          {isLanding && (
+            <div className="lg:grid lg:grid-cols-2 lg:gap-x-6 xl:gap-x-8">
+              <div className="flex items-center rounded-lg bg-gray-100 p-6 sm:p-10">
+                <div className="mx-auto max-w-sm">
+                  <h3 className="font-semibold text-gray-900">
+                    Sign up for our newsletter
+                  </h3>
+                  <p className="mt-2 text-sm text-gray-500">
+                    The latest news, articles, and resources, sent to your inbox
+                    weekly.
+                  </p>
+                  <form className="mt-4 sm:mt-6 sm:flex">
+                    <label htmlFor="email-address" className="sr-only">
+                      Email address
+                    </label>
+                    <input
+                      id="email-address"
+                      type="text"
+                      autoComplete="email"
+                      required
+                      className="w-full min-w-0 appearance-none rounded-md border border-gray-300 bg-white px-4 py-2 text-base text-gray-900 placeholder-gray-500 shadow-sm focus:border-secondary focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                    />
+                    <div className="mt-3 sm:ml-4 sm:mt-0 sm:flex-shrink-0">
+                      <button
+                        type="submit"
+                        className="flex w-full items-center justify-center rounded-md border border-transparent bg-primary px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-white"
+                      >
+                        Sign up
+                      </button>
+                    </div>
+                  </form>
+                </div>
               </div>
-            </div>
 
-            <div className="relative mt-6 flex items-center px-6 py-12 sm:px-10 sm:py-16 lg:mt-0">
-              <div className="absolute inset-0 overflow-hidden rounded-lg">
-                <img
-                  src="https://tailwindui.com/img/ecommerce-images/footer-02-exclusive-sale.jpg"
-                  alt=""
-                  className="h-full w-full object-cover object-center saturate-0 filter"
-                />
-                <div className="absolute inset-0 bg-indigo-600 bg-opacity-90" />
-              </div>
-              <div className="relative mx-auto max-w-sm text-center">
-                <h3 className="text-2xl font-bold tracking-tight text-white">
-                  Get early access
-                </h3>
-                <p className="mt-2 text-gray-200">
-                  Did you sign up to the newsletter? If so, use the keyword we
-                  sent you to get access.{" "}
-                  <a
-                    href="#"
-                    className="whitespace-nowrap font-bold text-white hover:text-gray-200"
-                  >
-                    Go now<span aria-hidden="true"> &rarr;</span>
-                  </a>
-                </p>
+              <div className="relative mt-6 flex items-center px-6 py-12 sm:px-10 sm:py-16 lg:mt-0">
+                <div className="absolute inset-0 overflow-hidden rounded-lg">
+                  <img
+                    src="https://tailwindui.com/img/ecommerce-images/footer-02-exclusive-sale.jpg"
+                    alt=""
+                    className="h-full w-full object-cover object-center saturate-0 filter"
+                  />
+                  <div className="absolute inset-0 bg-primary bg-opacity-90" />
+                </div>
+                <div className="relative mx-auto max-w-sm text-center">
+                  <h3 className="text-2xl font-bold tracking-tight text-white">
+                    Get early access
+                  </h3>
+                  <p className="mt-2 text-gray-200">
+                    Did you sign up to the newsletter? If so, use the keyword we
+                    sent you to get access.{" "}
+                    <a
+                      href="#"
+                      className="whitespace-nowrap font-bold text-white hover:text-gray-200"
+                    >
+                      Go now<span aria-hidden="true"> &rarr;</span>
+                    </a>
+                  </p>
+                </div>
               </div>
             </div>
-          </div>
+          )}
         </div>
 
         <div className="py-10 md:flex md:items-center md:justify-between">
@@ -226,7 +219,7 @@ export default function HomeFooter() {
               ))}
             </div>
 
-            <div className="ml-6 border-l border-gray-200 pl-6">
+            {/* <div className="ml-6 border-l border-gray-200 pl-6">
               <a
                 href="#"
                 className="flex items-center text-gray-500 hover:text-gray-600"
@@ -239,7 +232,7 @@ export default function HomeFooter() {
                 <span className="ml-3 text-sm">Change</span>
                 <span className="sr-only">location and currency</span>
               </a>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

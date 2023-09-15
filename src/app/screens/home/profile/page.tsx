@@ -1,4 +1,5 @@
 import AccountLayout from "@/app/layouts/account-layout";
+import AppLayout from "@/app/layouts/app-layout";
 import { useMemo } from "react";
 
 export default function Profile() {
@@ -68,7 +69,11 @@ export default function Profile() {
     });
     return pageMap;
   }, []);
-  return <AccountLayout pannels={pages} />;
+  return (
+    <AppLayout>
+      <AccountLayout pannels={pages} />
+    </AppLayout>
+  );
 }
 
 function ProfileView({ index }: { index: string }) {

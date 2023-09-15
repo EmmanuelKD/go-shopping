@@ -21,7 +21,6 @@ export default function AccountLayout({
   const keys = useMemo(() => Array.from(pannels.keys()), [pannels]);
   return (
     <div>
-      <Header />
 
       <div className="">
         <Tab.Group
@@ -38,9 +37,9 @@ export default function AccountLayout({
                 // @ts-ignore
                 className={({ selected }: { selected: boolean }) => {
                   return classNames(
-                    "border-transparent cursor-pointer text-gray-500  hover:text-gray-700 group inline-flex items-center border-b-2 py-4 px-1 text-sm font-medium ",
+                    "border-transparent px-2 rounded-md cursor-pointer text-gray-500 group inline-flex items-center border-b-2 py-2  text-sm font-medium ",
                     selected
-                      ? " border-indigo-500 text-indigo-600 group inline-flex items-center border-b-2 py-4 px-1 text-sm font-medium] "
+                      ? " bg-primary hover:bg-primary-dark text-white"
                       : "text-primary  hover:text-primary-dark hover:border-gray-300"
                   );
                 }}
