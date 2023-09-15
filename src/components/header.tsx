@@ -1,40 +1,45 @@
 "use client";
 import { routes } from "@/config";
 import { AuthContext } from "@/context/auth";
-import { Popover, Transition } from "@headlessui/react";
+import { Dialog, Popover, Tab, Transition } from "@headlessui/react";
 import Link from "next/link";
 import { Fragment, useContext, useEffect, useState } from "react";
 import Logo from "./logo";
+import { useDrawer } from "@/hook/use-drawer";
+import Cart from "./cart";
+import UpperHeader from "./upper-head";
+import { currencies, navigation } from "@/data";
 
 export default function Header() {
   const { isAuthorized } = useContext(AuthContext);
 
   const [isShowing, setIsShowing] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  const cartDrawer = useDrawer();
+  function classNames(...classes: any) {
+    return classes.filter(Boolean).join(" ");
+  }
 
   // useEffect(() => {}, []);
   return (
     <header>
       <nav className="lg:bg-primary ">
+        <UpperHeader />
         <div className="mx-auto max-w-7xl px-2 sm:px-4 lg:px-8 bg-primary">
           <div className="relative flex  flex-row flex-nowrap h-16 items-center justify-between">
             <div className="flex items-center px-2 lg:px-0">
               <div className="flex-shrink-0 ">
-                <Logo variant="white" />
-              </div>
-              <div className="hidden lg:ml-6 lg:block">
-                <div className="flex space-x-4">
-                  <a
-                    href={routes.home.index}
-                    className="rounded-md px-3 py-2 text-sm font-medium text-white hover:bg-gray-700 hover:text-white"
-                  >
-                    Home
-                  </a>
-                </div>
+                <Link href={routes.home.index}>
+                  <Logo variant="white" />
+                </Link>
               </div>
             </div>
 
-            <div className="flex flex-1 items-center gap-5 justify-center px-2 lg:ml-6 lg:justify-end flex-row flex-nowrap">
-              <div className="w-full max-w-lg lg:max-w-xs">
+            <div className="flex flex-1 items-center gap-2 md:gap-5 justify-center px-2 lg:ml-6 lg:justify-end flex-row flex-nowrap">
+         
+              {/* open search */}
+              <div className="w-full max-w-lg  ">
                 <label htmlFor="search" className="sr-only">
                   Search
                 </label>
@@ -63,52 +68,7 @@ export default function Header() {
                 </div>
               </div>
 
-              <div className="flex lg:hidden">
-                <button
-                  type="button"
-                  className="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
-                  aria-controls="mobile-menu"
-                  aria-expanded="false"
-                  onClick={() => {
-                    setIsShowing(!isShowing);
-                  }}
-                >
-                  <span className="absolute -inset-0.5"></span>
-                  <span className="sr-only">Open main menu</span>
-
-                  <svg
-                    className="block h-6 w-6"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth="1.5"
-                    stroke="currentColor"
-                    aria-hidden="true"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
-                    />
-                  </svg>
-
-                  <svg
-                    className="hidden h-6 w-6"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth="1.5"
-                    stroke="currentColor"
-                    aria-hidden="true"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M6 18L18 6M6 6l12 12"
-                    />
-                  </svg>
-                </button>
-              </div>
-
-              <div className="flex items-center">
+              <div className="lg:flex items-center hidden z-10 ">
                 <div className="relative ml-4 flex-shrink-0">
                   {isAuthorized ? (
                     <div className="hidden lg:flex lg:flex-1 lg:justify-end">
@@ -125,20 +85,13 @@ export default function Header() {
                         <>
                           <Popover.Button>
                             <div className="w-full h-full">
-                              {/* <button
-                                type="button" 
-                                id="user-menu-button"
-                                aria-expanded="false"
-                                aria-haspopup="true"
-                              > */}
-                                <span className="absolute -inset-1.5"></span>
-                                <span className="sr-only">Open user menu</span>
-                                <img
-                                  className="h-8 w-8 rounded-full"
-                                  src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                                  alt=""
-                                />
-                              {/* </button> */}
+                              <span className="absolute -inset-1.5"></span>
+                              <span className="sr-only">Open user menu</span>
+                              <img
+                                className="h-8 w-8 rounded-full"
+                                src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                                alt=""
+                              />
                             </div>
                           </Popover.Button>
                           <Transition
@@ -198,7 +151,12 @@ export default function Header() {
                 </div>
               </div>
 
-              <div className="border-transparent cursor-pointer text-white  hover:text-gray-700 group inline-flex items-center border-b-2 py-4 px-1 text-sm font-medium  ">
+              <button
+                onClick={() => {
+                  cartDrawer.handleOpen();
+                }}
+                className="border-transparent cursor-pointer text-white   group inline-flex items-center border-b-2 py-4 px-1 text-sm font-medium  "
+              >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -217,8 +175,52 @@ export default function Header() {
                 <span className="inline-flex items-center rounded-md bg-gray-400/10 px-2 py-1 text-xs font-medium text-green ring-1 ring-inset ring-gray-400/20">
                   20
                 </span>
+              </button>
+
+              <div className="flex lg:hidden">
+                <button
+                  type="button"
+                  className="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
+                  aria-controls="mobile-menu"
+                  aria-expanded="false"
+                  onClick={() => {
+                    setIsShowing(!isShowing);
+                  }}
+                >
+                  <span className="absolute -inset-0.5"></span>
+                  <span className="sr-only">Open main menu</span>
+
+                  <svg
+                    className="block h-6 w-6"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth="1.5"
+                    stroke="currentColor"
+                    aria-hidden="true"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
+                    />
+                  </svg>
+
+                  <svg
+                    className="hidden h-6 w-6"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth="1.5"
+                    stroke="currentColor"
+                    aria-hidden="true"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M6 18L18 6M6 6l12 12"
+                    />
+                  </svg>
+                </button>
               </div>
-              {/* </button> */}
             </div>
           </div>
         </div>
@@ -316,6 +318,7 @@ export default function Header() {
           </div>
         </Transition>
       </nav>
+      <Cart open={cartDrawer.open} setOpen={cartDrawer.handleClose} />
     </header>
   );
 }
