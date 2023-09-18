@@ -25,9 +25,10 @@ export default function AccountLayout({
       <div className="">
         <Tab.Group
           as="div"
+          
           // @ts-ignore
           className={
-            "max-w-7xl w-full mx-auto w-7xl  lg:px-8  flex items-start justify-start flex-col flex-nowrap"
+            "max-w-7xl w-full mx-auto w-7xl  lg:px-8  flex items-center justify-center flex-col flex-nowrap"
           }
         >
           <Tab.List className="flex w-full mx-5  sm:px-0  md:py-10   md:gap-10  py-5   gap-5">

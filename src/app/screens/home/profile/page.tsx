@@ -1,6 +1,12 @@
+"use client";
 import AccountLayout from "@/app/layouts/account-layout";
 import AppLayout from "@/app/layouts/app-layout";
-import { useMemo } from "react";
+import { PagnationNav } from "@/components/pagnation";
+import ProductListingCard from "@/components/product-listing-card";
+import { products } from "@/data";
+import { useDialog } from "@/hook/use-dialog";
+import { Dialog, Disclosure, Menu, Transition } from "@headlessui/react";
+import { Fragment, useEffect, useMemo } from "react";
 
 export default function Profile() {
   const pages = useMemo(() => {
@@ -206,352 +212,53 @@ function ProfileView({ index }: { index: string }) {
 }
 
 function ListingView({ index }: { index: string }) {
+  useEffect(() => {}, []);
   return (
-    <div className="mx-auto">
-      <div className="mx-auto max-w-7xl overflow-hidden sm:px-6 lg:px-8">
-        <h2 className="sr-only">Products</h2>
+    <div className="bg-white">
+      <main className="pb-24">
+        {/* Filters */}
+        <Disclosure
+          as="section"
+          aria-labelledby="filter-heading"
+          className="grid items-center border-b border-t border-gray-200"
+        >
+          <h2 id="filter-heading" className="sr-only">
+            My Products
+          </h2>
 
-        <div className="-mx-px grid grid-cols-2 border-l border-gray-200 sm:mx-0 md:grid-cols-3 lg:grid-cols-4">
-          <div className="group relative border-b border-r border-gray-200 p-4 sm:p-6">
-            <div className="aspect-h-1 aspect-w-1 overflow-hidden rounded-lg bg-gray-200 group-hover:opacity-75">
-              <img
-                src="https://tailwindui.com/img/ecommerce-images/category-page-05-image-card-01.jpg"
-                alt="TODO"
-                className="h-full w-full object-cover object-center"
-              />
-            </div>
-            <div className="pb-4 pt-10 text-center">
-              <h3 className="text-sm font-medium text-gray-900">
-                <a href="#">
-                  <span aria-hidden="true" className="absolute inset-0"></span>
-                  Organize Basic Set (Walnut)
-                </a>
-              </h3>
-              <div className="mt-3 flex flex-col items-center">
-                <p className="sr-only">5 out of 5 stars</p>
-                <div className="flex items-center">
-                  <svg
-                    className="text-yellow-400 h-5 w-5 flex-shrink-0"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                    aria-hidden="true"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                  <svg
-                    className="text-yellow-400 h-5 w-5 flex-shrink-0"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                    aria-hidden="true"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                  <svg
-                    className="text-yellow-400 h-5 w-5 flex-shrink-0"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                    aria-hidden="true"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                  <svg
-                    className="text-yellow-400 h-5 w-5 flex-shrink-0"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                    aria-hidden="true"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                  <svg
-                    className="text-yellow-400 h-5 w-5 flex-shrink-0"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                    aria-hidden="true"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
+          <Disclosure.Panel className="border-t border-gray-200 py-10">
+            <div className="mx-auto grid max-w-7xl grid-cols-2 gap-x-4 px-4 text-sm sm:px-6 md:gap-x-6 lg:px-8"></div>
+          </Disclosure.Panel>
+          <div className="col-start-1 row-start-1 py-4">
+            <div className="mx-auto flex max-w-7xl justify-end px-4 sm:px-6 lg:px-8">
+              <Menu as="div" className="relative inline-block">
+                <div className="flex">
+                  <AddItemAction />
                 </div>
-                <p className="mt-1 text-sm text-gray-500">38 reviews</p>
-              </div>
-              <p className="mt-4 text-base font-medium text-gray-900">$149</p>
+              </Menu>
             </div>
           </div>
-          <div className="group relative border-b border-r border-gray-200 p-4 sm:p-6">
-            <div className="aspect-h-1 aspect-w-1 overflow-hidden rounded-lg bg-gray-200 group-hover:opacity-75">
-              <img
-                src="https://tailwindui.com/img/ecommerce-images/category-page-05-image-card-02.jpg"
-                alt="TODO"
-                className="h-full w-full object-cover object-center"
-              />
-            </div>
-            <div className="pb-4 pt-10 text-center">
-              <h3 className="text-sm font-medium text-gray-900">
-                <a href="#">
-                  <span aria-hidden="true" className="absolute inset-0"></span>
-                  Organize Pen Holder
-                </a>
-              </h3>
-              <div className="mt-3 flex flex-col items-center">
-                <p className="sr-only">5 out of 5 stars</p>
-                <div className="flex items-center">
-                  <svg
-                    className="text-yellow-400 h-5 w-5 flex-shrink-0"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                    aria-hidden="true"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                  <svg
-                    className="text-yellow-400 h-5 w-5 flex-shrink-0"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                    aria-hidden="true"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                  <svg
-                    className="text-yellow-400 h-5 w-5 flex-shrink-0"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                    aria-hidden="true"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                  <svg
-                    className="text-yellow-400 h-5 w-5 flex-shrink-0"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                    aria-hidden="true"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                  <svg
-                    className="text-yellow-400 h-5 w-5 flex-shrink-0"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                    aria-hidden="true"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                </div>
-                <p className="mt-1 text-sm text-gray-500">18 reviews</p>
-              </div>
-              <p className="mt-4 text-base font-medium text-gray-900">$15</p>
-            </div>
-          </div>
-          <div className="group relative border-b border-r border-gray-200 p-4 sm:p-6">
-            <div className="aspect-h-1 aspect-w-1 overflow-hidden rounded-lg bg-gray-200 group-hover:opacity-75">
-              <img
-                src="https://tailwindui.com/img/ecommerce-images/category-page-05-image-card-03.jpg"
-                alt="TODO"
-                className="h-full w-full object-cover object-center"
-              />
-            </div>
-            <div className="pb-4 pt-10 text-center">
-              <h3 className="text-sm font-medium text-gray-900">
-                <a href="#">
-                  <span aria-hidden="true" className="absolute inset-0"></span>
-                  Organize Sticky Note Holder
-                </a>
-              </h3>
-              <div className="mt-3 flex flex-col items-center">
-                <p className="sr-only">5 out of 5 stars</p>
-                <div className="flex items-center">
-                  <svg
-                    className="text-yellow-400 h-5 w-5 flex-shrink-0"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                    aria-hidden="true"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                  <svg
-                    className="text-yellow-400 h-5 w-5 flex-shrink-0"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                    aria-hidden="true"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                  <svg
-                    className="text-yellow-400 h-5 w-5 flex-shrink-0"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                    aria-hidden="true"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                  <svg
-                    className="text-yellow-400 h-5 w-5 flex-shrink-0"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                    aria-hidden="true"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                  <svg
-                    className="text-yellow-400 h-5 w-5 flex-shrink-0"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                    aria-hidden="true"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                </div>
-                <p className="mt-1 text-sm text-gray-500">14 reviews</p>
-              </div>
-              <p className="mt-4 text-base font-medium text-gray-900">$15</p>
-            </div>
-          </div>
-          <div className="group relative border-b border-r border-gray-200 p-4 sm:p-6">
-            <div className="aspect-h-1 aspect-w-1 overflow-hidden rounded-lg bg-gray-200 group-hover:opacity-75">
-              <img
-                src="https://tailwindui.com/img/ecommerce-images/category-page-05-image-card-04.jpg"
-                alt="TODO"
-                className="h-full w-full object-cover object-center"
-              />
-            </div>
-            <div className="pb-4 pt-10 text-center">
-              <h3 className="text-sm font-medium text-gray-900">
-                <a href="#">
-                  <span aria-hidden="true" className="absolute inset-0"></span>
-                  Organize Phone Holder
-                </a>
-              </h3>
-              <div className="mt-3 flex flex-col items-center">
-                <p className="sr-only">4 out of 5 stars</p>
-                <div className="flex items-center">
-                  <svg
-                    className="text-yellow-400 h-5 w-5 flex-shrink-0"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                    aria-hidden="true"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                  <svg
-                    className="text-yellow-400 h-5 w-5 flex-shrink-0"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                    aria-hidden="true"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                  <svg
-                    className="text-yellow-400 h-5 w-5 flex-shrink-0"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                    aria-hidden="true"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                  <svg
-                    className="text-yellow-400 h-5 w-5 flex-shrink-0"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                    aria-hidden="true"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                  <svg
-                    className="text-gray-200 h-5 w-5 flex-shrink-0"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                    aria-hidden="true"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                </div>
-                <p className="mt-1 text-sm text-gray-500">21 reviews</p>
-              </div>
-              <p className="mt-4 text-base font-medium text-gray-900">$15</p>
-            </div>
-          </div>
+        </Disclosure>
 
-          {/* <!-- More products... --> */}
-        </div>
-      </div>
+        {/* Product grid */}
+        <section
+          aria-labelledby="products-heading"
+          className="mx-auto max-w-7xl overflow-hidden sm:px-6 lg:px-8"
+        >
+          <h2 id="products-heading" className="sr-only">
+            Products
+          </h2>
+
+          <div className="-mx-px grid grid-cols-2 border-l border-gray-200 sm:mx-0 md:grid-cols-3 lg:grid-cols-4">
+            {products.map((product) => (
+              <ProductListingCard product={product} />
+            ))}
+          </div>
+        </section>
+
+        {/* Pagination */}
+        <PagnationNav dataLength={0} />
+      </main>
     </div>
   );
 }
@@ -702,5 +409,536 @@ function SettingView({ index }: { index: string }) {
         </form>
       </div>
     </div>
+  );
+}
+
+function AddItemAction() {
+  let dialog = useDialog();
+
+  return (
+    <Menu.Button
+      onClick={dialog.handleOpen}
+      className="group inline-flex justify-center text-sm font-medium text-primary hover:text-primary-dark"
+    >
+      <b>Add</b>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke-width="1.5"
+        stroke="currentColor"
+        className="-mr-1 ml-1 h-5 w-5 flex-shrink-0 "
+        aria-hidden="true"
+      >
+        <path
+          fill-rule="evenodd"
+          d="M12 3.75a.75.75 0 01.75.75v6.75h6.75a.75.75 0 010 1.5h-6.75v6.75a.75.75 0 01-1.5 0v-6.75H4.5a.75.75 0 010-1.5h6.75V4.5a.75.75 0 01.75-.75z"
+          clip-rule="evenodd"
+        />
+      </svg>
+      <AddProductDialog open={dialog.open} handleClose={dialog.handleClose} />
+    </Menu.Button>
+  );
+}
+
+function AddProductDialog({
+  handleClose,
+  open,
+}: {
+  open: boolean;
+  handleClose: () => void;
+}) {
+  const FORM_KEY = "product_form";
+  return (
+    <Transition appear show={open} as={Fragment}>
+      <Dialog as="div" className="relative z-10" onClose={handleClose}>
+        <Transition.Child
+          as={Fragment}
+          enter="ease-out duration-300"
+          enterFrom="opacity-0"
+          enterTo="opacity-100"
+          leave="ease-in duration-200"
+          leaveFrom="opacity-100"
+          leaveTo="opacity-0"
+        >
+          <div className="fixed inset-0 bg-black bg-opacity-25" />
+        </Transition.Child>
+
+        <div className="fixed inset-0 overflow-y-auto">
+          <div className="flex min-h-full items-center justify-center p-4 text-center">
+            <Transition.Child
+              as={Fragment}
+              enter="ease-out duration-300"
+              enterFrom="opacity-0 scale-95"
+              enterTo="opacity-100 scale-100"
+              leave="ease-in duration-200"
+              leaveFrom="opacity-100 scale-100"
+              leaveTo="opacity-0 scale-95"
+            >
+              {/* max-w-md  */}
+              <Dialog.Panel className="mx-auto grid transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
+                <Dialog.Title
+                  as="h3"
+                  className="text-lg font-medium leading-6 text-gray-900"
+                >
+                  Add Product
+                </Dialog.Title>
+                <form
+                  key={FORM_KEY}
+                  className="space-y-12  max-h-96  max-w-7xl overflow-y-scroll "
+                >
+                  <div className="border-b border-gray-900/10 pb-12 ">
+                    <p className="mt-1 text-sm leading-6 text-gray-600">
+                      This information will be displayed publicly so be careful
+                      what you share.
+                    </p>
+
+                    <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+                      <div className="sm:col-span-4">
+                        <label
+                          htmlFor="username"
+                          className="block text-sm font-medium leading-6 text-gray-900"
+                        >
+                          Username
+                        </label>
+                        <div className="mt-2">
+                          <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
+                            <span className="flex select-none items-center pl-3 text-gray-500 sm:text-sm">
+                              workcation.com/
+                            </span>
+                            <input
+                              type="text"
+                              name="username"
+                              id="username"
+                              autoComplete="username"
+                              className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                              placeholder="janesmith"
+                            />
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="col-span-full">
+                        <label
+                          htmlFor="about"
+                          className="block text-sm font-medium leading-6 text-gray-900"
+                        >
+                          About
+                        </label>
+                        <div className="mt-2">
+                          <textarea
+                            id="about"
+                            name="about"
+                            rows={3}
+                            className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                            defaultValue={""}
+                          />
+                        </div>
+                        <p className="mt-3 text-sm leading-6 text-gray-600">
+                          Write a few sentences about yourself.
+                        </p>
+                      </div>
+
+                      <div className="col-span-full">
+                        <label
+                          htmlFor="photo"
+                          className="block text-sm font-medium leading-6 text-gray-900"
+                        >
+                          Photo
+                        </label>
+                        <div className="mt-2 flex items-center gap-x-3">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke-width="1.5"
+                            stroke="currentColor"
+                            className="h-12 w-12 text-gray-300"
+                            aria-hidden="true"
+                          >
+                            <path
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z"
+                            />
+                          </svg>
+
+                          <button
+                            type="button"
+                            className="rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+                          >
+                            Change
+                          </button>
+                        </div>
+                      </div>
+
+                      <div className="col-span-full">
+                        <label
+                          htmlFor="cover-photo"
+                          className="block text-sm font-medium leading-6 text-gray-900"
+                        >
+                          Cover photo
+                        </label>
+                        <div className="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
+                          <div className="text-center">
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              strokeWidth={1.5}
+                              aria-hidden="true"
+                              stroke="currentColor"
+                              className="mx-auto h-12 w-12 text-gray-300"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"
+                              />
+                            </svg>
+
+                            <div className="mt-4 flex text-sm leading-6 text-gray-600">
+                              <label
+                                htmlFor="file-upload"
+                                className="relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500"
+                              >
+                                <span>Upload a file</span>
+                                <input
+                                  id="file-upload"
+                                  name="file-upload"
+                                  type="file"
+                                  className="sr-only"
+                                />
+                              </label>
+                              <p className="pl-1">or drag and drop</p>
+                            </div>
+                            <p className="text-xs leading-5 text-gray-600">
+                              PNG, JPG, GIF up to 10MB
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="border-b border-gray-900/10 pb-12">
+                    <h2 className="text-base font-semibold leading-7 text-gray-900">
+                      Personal Information
+                    </h2>
+                    <p className="mt-1 text-sm leading-6 text-gray-600">
+                      Use a permanent address where you can receive mail.
+                    </p>
+
+                    <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+                      <div className="sm:col-span-3">
+                        <label
+                          htmlFor="first-name"
+                          className="block text-sm font-medium leading-6 text-gray-900"
+                        >
+                          First name
+                        </label>
+                        <div className="mt-2">
+                          <input
+                            type="text"
+                            name="first-name"
+                            id="first-name"
+                            autoComplete="given-name"
+                            className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                          />
+                        </div>
+                      </div>
+
+                      <div className="sm:col-span-3">
+                        <label
+                          htmlFor="last-name"
+                          className="block text-sm font-medium leading-6 text-gray-900"
+                        >
+                          Last name
+                        </label>
+                        <div className="mt-2">
+                          <input
+                            type="text"
+                            name="last-name"
+                            id="last-name"
+                            autoComplete="family-name"
+                            className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                          />
+                        </div>
+                      </div>
+
+                      <div className="sm:col-span-4">
+                        <label
+                          htmlFor="email"
+                          className="block text-sm font-medium leading-6 text-gray-900"
+                        >
+                          Email address
+                        </label>
+                        <div className="mt-2">
+                          <input
+                            id="email"
+                            name="email"
+                            type="email"
+                            autoComplete="email"
+                            className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                          />
+                        </div>
+                      </div>
+
+                      <div className="sm:col-span-3">
+                        <label
+                          htmlFor="country"
+                          className="block text-sm font-medium leading-6 text-gray-900"
+                        >
+                          Country
+                        </label>
+                        <div className="mt-2">
+                          <select
+                            id="country"
+                            name="country"
+                            autoComplete="country-name"
+                            className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
+                          >
+                            <option>United States</option>
+                            <option>Canada</option>
+                            <option>Mexico</option>
+                          </select>
+                        </div>
+                      </div>
+
+                      <div className="col-span-full">
+                        <label
+                          htmlFor="street-address"
+                          className="block text-sm font-medium leading-6 text-gray-900"
+                        >
+                          Street address
+                        </label>
+                        <div className="mt-2">
+                          <input
+                            type="text"
+                            name="street-address"
+                            id="street-address"
+                            autoComplete="street-address"
+                            className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                          />
+                        </div>
+                      </div>
+
+                      <div className="sm:col-span-2 sm:col-start-1">
+                        <label
+                          htmlFor="city"
+                          className="block text-sm font-medium leading-6 text-gray-900"
+                        >
+                          City
+                        </label>
+                        <div className="mt-2">
+                          <input
+                            type="text"
+                            name="city"
+                            id="city"
+                            autoComplete="address-level2"
+                            className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                          />
+                        </div>
+                      </div>
+
+                      <div className="sm:col-span-2">
+                        <label
+                          htmlFor="region"
+                          className="block text-sm font-medium leading-6 text-gray-900"
+                        >
+                          State / Province
+                        </label>
+                        <div className="mt-2">
+                          <input
+                            type="text"
+                            name="region"
+                            id="region"
+                            autoComplete="address-level1"
+                            className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                          />
+                        </div>
+                      </div>
+
+                      <div className="sm:col-span-2">
+                        <label
+                          htmlFor="postal-code"
+                          className="block text-sm font-medium leading-6 text-gray-900"
+                        >
+                          ZIP / Postal code
+                        </label>
+                        <div className="mt-2">
+                          <input
+                            type="text"
+                            name="postal-code"
+                            id="postal-code"
+                            autoComplete="postal-code"
+                            className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="border-b border-gray-900/10 pb-12">
+                    <h2 className="text-base font-semibold leading-7 text-gray-900">
+                      Notifications
+                    </h2>
+                    <p className="mt-1 text-sm leading-6 text-gray-600">
+                      We'll always let you know about important changes, but you
+                      pick what else you want to hear about.
+                    </p>
+
+                    <div className="mt-10 space-y-10">
+                      <fieldset>
+                        <legend className="text-sm font-semibold leading-6 text-gray-900">
+                          By Email
+                        </legend>
+                        <div className="mt-6 space-y-6">
+                          <div className="relative flex gap-x-3">
+                            <div className="flex h-6 items-center">
+                              <input
+                                id="comments"
+                                name="comments"
+                                type="checkbox"
+                                className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
+                              />
+                            </div>
+                            <div className="text-sm leading-6">
+                              <label
+                                htmlFor="comments"
+                                className="font-medium text-gray-900"
+                              >
+                                Comments
+                              </label>
+                              <p className="text-gray-500">
+                                Get notified when someones posts a comment on a
+                                posting.
+                              </p>
+                            </div>
+                          </div>
+                          <div className="relative flex gap-x-3">
+                            <div className="flex h-6 items-center">
+                              <input
+                                id="candidates"
+                                name="candidates"
+                                type="checkbox"
+                                className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
+                              />
+                            </div>
+                            <div className="text-sm leading-6">
+                              <label
+                                htmlFor="candidates"
+                                className="font-medium text-gray-900"
+                              >
+                                Candidates
+                              </label>
+                              <p className="text-gray-500">
+                                Get notified when a candidate applies for a job.
+                              </p>
+                            </div>
+                          </div>
+                          <div className="relative flex gap-x-3">
+                            <div className="flex h-6 items-center">
+                              <input
+                                id="offers"
+                                name="offers"
+                                type="checkbox"
+                                className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
+                              />
+                            </div>
+                            <div className="text-sm leading-6">
+                              <label
+                                htmlFor="offers"
+                                className="font-medium text-gray-900"
+                              >
+                                Offers
+                              </label>
+                              <p className="text-gray-500">
+                                Get notified when a candidate accepts or rejects
+                                an offer.
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      </fieldset>
+                      <fieldset>
+                        <legend className="text-sm font-semibold leading-6 text-gray-900">
+                          Push Notifications
+                        </legend>
+                        <p className="mt-1 text-sm leading-6 text-gray-600">
+                          These are delivered via SMS to your mobile phone.
+                        </p>
+                        <div className="mt-6 space-y-6">
+                          <div className="flex items-center gap-x-3">
+                            <input
+                              id="push-everything"
+                              name="push-notifications"
+                              type="radio"
+                              className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
+                            />
+                            <label
+                              htmlFor="push-everything"
+                              className="block text-sm font-medium leading-6 text-gray-900"
+                            >
+                              Everything
+                            </label>
+                          </div>
+                          <div className="flex items-center gap-x-3">
+                            <input
+                              id="push-email"
+                              name="push-notifications"
+                              type="radio"
+                              className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
+                            />
+                            <label
+                              htmlFor="push-email"
+                              className="block text-sm font-medium leading-6 text-gray-900"
+                            >
+                              Same as email
+                            </label>
+                          </div>
+                          <div className="flex items-center gap-x-3">
+                            <input
+                              id="push-nothing"
+                              name="push-notifications"
+                              type="radio"
+                              className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
+                            />
+                            <label
+                              htmlFor="push-nothing"
+                              className="block text-sm font-medium leading-6 text-gray-900"
+                            >
+                              No push notifications
+                            </label>
+                          </div>
+                        </div>
+                      </fieldset>
+                    </div>
+                  </div>
+                </form>
+                <Dialog.Panel>
+                  <div className="mt-6 flex items-center justify-end gap-x-6">
+                    <button
+                      onClick={handleClose}
+                      type="button"
+                      className="text-sm font-semibold leading-6 text-gray-900"
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      type="submit"
+                      form={FORM_KEY}
+                      className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                    >
+                      Save
+                    </button>
+                  </div>
+                </Dialog.Panel>
+              </Dialog.Panel>
+            </Transition.Child>
+          </div>
+        </div>
+      </Dialog>
+    </Transition>
   );
 }
