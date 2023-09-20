@@ -22,9 +22,8 @@ export default function Header() {
     return classes.filter(Boolean).join(" ");
   }
 
-  // useEffect(() => {}, []);
   return (
-    <div className="fixed w-full z-10 top-0">
+    <div className="fixed w-full z-50 top-0">
       <header>
         <nav className="lg:bg-primary">
           <UpperHeader />

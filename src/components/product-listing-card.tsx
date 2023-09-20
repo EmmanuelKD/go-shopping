@@ -13,13 +13,17 @@ export type ProductType = {
 };
 export default function ProductListingCard({
   product,
+  isSingle = false,
 }: {
   product: ProductType;
+  isSingle?: boolean;
 }) {
   return (
     <div
       key={product.id}
-      className="group relative border-b border-r border-gray-200 p-4 sm:p-6"
+      className={`group relative ${
+        isSingle && "border-t border-l"
+      } border-b border-r border-gray-200 p-4 sm:p-6`}
     >
       <div className="aspect-h-1 aspect-w-1 overflow-hidden rounded-lg bg-gray-200 group-hover:opacity-75">
         <img
@@ -38,7 +42,7 @@ export default function ProductListingCard({
         <div className="mt-3 flex flex-col items-center">
           <p className="sr-only">{product.rating} out of 5 stars</p>
           <div className="flex items-center">
-          <RatingStarComponent rate={3}/>
+            <RatingStarComponent rate={3} />
           </div>
           <p className="mt-1 text-sm text-gray-500">
             {product.reviewCount} reviews

@@ -3,7 +3,7 @@ import { ReactNode } from "react";
 import Carousel, { ResponsiveType } from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 
-const responsive:ResponsiveType = {
+const localResponsive: ResponsiveType = {
   superLargeDesktop: {
     // the naming can be any, depends on you.
     breakpoint: { max: 4000, min: 3000 },
@@ -23,7 +23,7 @@ const responsive:ResponsiveType = {
   mobile: {
     breakpoint: { max: 464, min: 0 },
     // breakpoint: { max: 464, min: 0 },
-    items: 1, 
+    items: 1,
   },
 };
 
@@ -32,20 +32,22 @@ export default function LocalCarousel({
   animated,
   infinite,
   autoPlay,
-  arrows
+  arrows,
+  responsive,
 }: {
   children: ReactNode;
   animated?: boolean;
   autoPlay?: boolean;
   infinite?: boolean;
   arrows?: boolean;
+  responsive?: ResponsiveType;
 }) {
   return (
     <Carousel
-   arrows={arrows}
-       autoPlay={autoPlay}
+       arrows={arrows}
+      autoPlay={autoPlay}
       infinite={infinite}
-      responsive={responsive}
+      responsive={responsive ?? localResponsive}
       rewindWithAnimation={animated}
     >
       {children}
