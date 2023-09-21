@@ -1,8 +1,8 @@
 "use client";
-import { AuthContext } from "@/context/auth";
-import { useDrawer } from "@/hook/use-drawer";
+ import { useDrawer } from "@/hook/use-drawer";
 import { useContext, useState } from "react";
 import Logo from "./logo";
+import { AuthContext } from "@/context/auth/context";
 
 const footerNavigation = {
   products: [
@@ -43,7 +43,7 @@ const footerNavigation = {
 };
 
 export default function HomeFooter({ isLanding }: { isLanding?: boolean }) {
-  const { isAuthorized } = useContext(AuthContext);
+  const { isUserLoggedIn } = useContext(AuthContext);
 
   const [isShowing, setIsShowing] = useState(false);
 

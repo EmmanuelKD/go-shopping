@@ -1,6 +1,5 @@
 "use client";
 import { routes } from "@/config";
-import { AuthContext } from "@/context/auth";
 import { Dialog, Popover, Tab, Transition } from "@headlessui/react";
 import Link from "next/link";
 import { Fragment, useContext, useEffect, useState } from "react";
@@ -10,9 +9,13 @@ import Cart from "./cart";
 import UpperHeader from "./upper-head";
 import { currencies, navigation } from "@/data";
 import FilterSection from "./filter-section";
+import { AuthContext } from "@/context/auth/context";
+import { AuthClass } from "@/firebase/auth";
+import { useRouter } from "next/navigation";
 
 export default function Header() {
-  const { isAuthorized } = useContext(AuthContext);
+  let router = useRouter();
+  const { isUserLoggedIn ,user} = useContext(AuthContext);
 
   const [isShowing, setIsShowing] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -21,6 +24,7 @@ export default function Header() {
   function classNames(...classes: any) {
     return classes.filter(Boolean).join(" ");
   }
+
 
   return (
     <div className="fixed w-full z-50 top-0">
@@ -70,11 +74,11 @@ export default function Header() {
 
                 <div className="lg:flex items-center hidden z-10 ">
                   <div className="relative ml-4 flex-shrink-0">
-                    {isAuthorized ? (
+                    {!isUserLoggedIn() ? (
                       <div className="hidden lg:flex lg:flex-1 lg:justify-end">
                         <Link
                           href={routes.auth.login}
-                          className="text-sm font-semibold leading-6 text-gray-900"
+                          className="text-sm font-semibold leading-6 text-white"
                         >
                           Log in <span aria-hidden="true">&rarr;</span>
                         </Link>
@@ -89,7 +93,7 @@ export default function Header() {
                                 <span className="sr-only">Open user menu</span>
                                 <img
                                   className="h-8 w-8 rounded-full"
-                                  src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                                  src={user?.photoRef}
                                   alt=""
                                 />
                               </div>
@@ -131,15 +135,19 @@ export default function Header() {
                                     >
                                       Settings
                                     </a>
-                                    <a
-                                      href="#"
-                                      className="block px-4 py-2 text-sm text-gray-700"
+                                    <div
+                                      onClick={() => {
+                                        const auth = new AuthClass();
+                                        auth.signOutCurrentUser();
+                                        router.refresh();
+                                      }}
+                                      className="cursor-pointer block px-4 py-2 text-sm text-gray-700"
                                       role="menuitem"
                                       tabIndex={-1}
                                       id="user-menu-item-2"
                                     >
                                       Sign out
-                                    </a>
+                                    </div>
                                   </div>
                                 </div>
                               </Popover.Panel>
@@ -151,31 +159,33 @@ export default function Header() {
                   </div>
                 </div>
 
-                <button
-                  onClick={() => {
-                    cartDrawer.handleOpen();
-                  }}
-                  className="border-transparent cursor-pointer text-white   group inline-flex items-center border-b-2 py-4 px-1 text-sm font-medium  "
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth="1.5"
-                    stroke="currentColor"
-                    className="w-6 h-6"
+                {isUserLoggedIn() && (
+                  <button
+                    onClick={() => {
+                      cartDrawer.handleOpen();
+                    }}
+                    className="border-transparent cursor-pointer text-white   group inline-flex items-center border-b-2 py-4 px-1 text-sm font-medium  "
                   >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z"
-                    />
-                  </svg>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth="1.5"
+                      stroke="currentColor"
+                      className="w-6 h-6"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z"
+                      />
+                    </svg>
 
-                  <span className="inline-flex items-center rounded-md bg-gray-400/10 px-2 py-1 text-xs font-medium text-green ring-1 ring-inset ring-gray-400/20">
-                    20
-                  </span>
-                </button>
+                    <span className="inline-flex items-center rounded-md bg-gray-400/10 px-2 py-1 text-xs font-medium text-green ring-1 ring-inset ring-gray-400/20">
+                      20
+                    </span>
+                  </button>
+                )}
 
                 <div className="flex lg:hidden">
                   <button
@@ -260,7 +270,7 @@ export default function Header() {
                   <div className="flex-shrink-0">
                     <img
                       className="h-10 w-10 rounded-full"
-                      src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                      src={user?.photoRef}
                       alt=""
                     />
                   </div>
@@ -297,7 +307,7 @@ export default function Header() {
                 <div className="mt-3 space-y-1 px-2">
                   <Link
                     href={
-                      isAuthorized ? routes.home.profile : routes.auth.login
+                      isUserLoggedIn() ? routes.home.profile : routes.auth.login
                     }
                     className="block rounded-md px-3 py-2 text-base font-medium text-gray-400  w-full hover:text-white hover:bg-primary-light"
                   >
@@ -309,12 +319,16 @@ export default function Header() {
                   >
                     Settings
                   </a>
-                  <a
-                    href="#"
-                    className="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white"
+                  <div
+                    onClick={() => {
+                      const auth = new AuthClass();
+                      auth.signOutCurrentUser();
+                      router.refresh();
+                    }}
+                    className="cursor-pointer block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white"
                   >
                     Sign out
-                  </a>
+                  </div>
                 </div>
               </div>
             </div>

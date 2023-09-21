@@ -1,8 +1,9 @@
-import { AuthProvider } from "@/context/auth";
+import { AppProvider } from "@/context/app";
+import { AuthContextProvider } from "@/context/auth";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import { AppProvider } from "@/context/app";
+import { NotificationContextProvider } from "@/context/notification/index.notificationContext";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,11 +19,13 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <AuthProvider>
-        <AppProvider>
-          <body className={inter.className}>{children}</body>
-        </AppProvider>
-      </AuthProvider>
+      <NotificationContextProvider>
+        <AuthContextProvider>
+          <AppProvider>
+            <body className={inter.className}>{children}</body>
+          </AppProvider>
+        </AuthContextProvider>
+      </NotificationContextProvider>
     </html>
   );
 }

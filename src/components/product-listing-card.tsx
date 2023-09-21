@@ -4,6 +4,7 @@ import RatingStarComponent from "./rating-star";
 export type ProductType = {
   id: string;
   imageSrc: string;
+  otherImages?: string[];
   imageAlt: string;
   href: string;
   name: string;

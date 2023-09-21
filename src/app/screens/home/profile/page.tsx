@@ -5,12 +5,20 @@ import Dropzone from "@/components/dropzone";
 import { PagnationNav } from "@/components/pagnation";
 import ProductListingCard from "@/components/product-listing-card";
 import { routes } from "@/config";
+import { AuthContext } from "@/context/auth/context";
+import { NotificationContext } from "@/context/notification/context";
 import { products } from "@/data";
+import { AuthClass } from "@/firebase/auth";
+import { UsersClass } from "@/firebase/collections/users";
+import { FileStorage } from "@/firebase/storage";
 import { useDialog } from "@/hook/use-dialog";
 import { Dialog, Disclosure, Menu, Transition } from "@headlessui/react";
+import { useFormik } from "formik";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Fragment, useEffect, useMemo, useState } from "react";
+import { Fragment, useContext, useEffect, useMemo, useState } from "react";
+import { useDropzone } from "react-dropzone";
+import * as Yup from "yup";
 
 type productCattigory =
   | "Vehicles"
@@ -53,8 +61,8 @@ export default function Profile() {
 
   useEffect(() => {
     // Get the fragment from window.location.hash
-    let frag=window.location.hash.slice(1)
-    console.log(frag)
+    let frag = window.location.hash.slice(1);
+    console.log(frag);
     setFragment(frag);
   }, []);
 
@@ -134,7 +142,139 @@ export default function Profile() {
   );
 }
 
+const validationSchema = Yup.object({
+  fname: Yup.string().required("First name is required"),
+  lname: Yup.string().required("First name is required"),
+  email: Yup.string().email().required("Your email  is required"),
+  password: Yup.string()
+    .min(8, "Password must be at least 8 characters")
+    .required("Password is required"),
+  confirmPassword: Yup.string()
+    .oneOf([Yup.ref("password")], "Passwords must match")
+    .required("Confirm Password is required"),
+});
+
+function imgSkeliton() {
+  //   <div
+  //   role="status"
+  //   className="space-y-8 animate-pulse md:space-y-0 md:space-x-8 md:flex md:items-center"
+  // >
+  //   <div className="flex items-center justify-center w-full h-48 bg-gray-300 rounded sm:w-96 dark:bg-gray-700">
+  //     <svg
+  //       className="w-10 h-10 text-gray-200 dark:text-gray-600"
+  //       aria-hidden="true"
+  //       xmlns="http://www.w3.org/2000/svg"
+  //       fill="currentColor"
+  //       viewBox="0 0 20 18"
+  //     >
+  //       <path d="M18 0H2a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2Zm-5.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm4.376 10.481A1 1 0 0 1 16 15H4a1 1 0 0 1-.895-1.447l3.5-7A1 1 0 0 1 7.468 6a.965.965 0 0 1 .9.5l2.775 4.757 1.546-1.887a1 1 0 0 1 1.618.1l2.541 4a1 1 0 0 1 .028 1.011Z" />
+  //     </svg>
+  //   </div>
+  //   <div className="w-full">
+  //     <div className="h-2.5 bg-gray-200 rounded-full dark:bg-gray-700 w-48 mb-4"></div>
+  //     <div className="h-2 bg-gray-200 rounded-full dark:bg-gray-700 max-w-[480px] mb-2.5"></div>
+  //     <div className="h-2 bg-gray-200 rounded-full dark:bg-gray-700 mb-2.5"></div>
+  //     <div className="h-2 bg-gray-200 rounded-full dark:bg-gray-700 max-w-[440px] mb-2.5"></div>
+  //     <div className="h-2 bg-gray-200 rounded-full dark:bg-gray-700 max-w-[460px] mb-2.5"></div>
+  //     <div className="h-2 bg-gray-200 rounded-full dark:bg-gray-700 max-w-[360px]"></div>
+  //   </div>
+  //   <span className="sr-only">Loading...</span>
+  // </div>
+}
+
 function ProfileView({ index }: { index: string }) {
+  const { user } = useContext(AuthContext);
+  const { addNotification } = useContext(NotificationContext);
+
+  const [initialValues, setInitialValues] = useState<{
+    fname: string;
+    lname: string;
+    email: string;
+    imageUrl: string;
+  }>({
+    fname: "",
+    lname: "",
+    email: "",
+    imageUrl: "",
+  });
+
+  const formik = useFormik({
+    initialValues,
+    validationSchema,
+    onSubmit: async ({ email, lname, fname, imageUrl }) => {
+      // Handle form submission here
+      // let auth = new AuthClass();
+      // let user = new User();
+      // await auth.createUserWithEmailAndPassword({
+      //   email,
+      //   password,
+      //   authContext,
+      //   navigate: router,
+      //   notificationContext,
+      //   lname,
+      //   fname,
+      // });
+    },
+  });
+
+  useEffect(() => {
+    if (initialValues.fname == "" || (initialValues.lname == "" && user)) {
+      // console.log(user)
+      let vlaues = {
+        fname: user?.fname ?? "",
+        lname: user?.lname ?? "",
+        email: user?.email ?? "",
+        imageUrl: user?.photoRef ?? "",
+      };
+      setInitialValues(vlaues);
+      formik.setValues(vlaues);
+    }
+  }, [user, initialValues]);
+
+  const [isImgUploading, setImageUploading] = useState<boolean>(false); // Use an empty state value
+
+  const { getRootProps, getInputProps, open, acceptedFiles } = useDropzone({
+    // Disable click and keydown behavior
+    noClick: true,
+    noKeyboard: true,
+    multiple: false,
+    accept: {
+      "image/*": [],
+    },
+    onDrop: async (acceptedFiles) => {
+      let usersClass = new UsersClass();
+      let storage = new FileStorage();
+
+      const file = acceptedFiles[0];
+
+      if (file) {
+        setImageUploading(true);
+        if (user?.objectId) {
+          let imageRef = await storage.addUsersProfileToStorage(
+            file,
+            user.objectId
+          );
+          user.photoRef = imageRef;
+          formik.setFieldValue("imageUrl", imageRef);
+          await usersClass.updateUsersData(user).then((added) => {
+            if (added) {
+              addNotification({
+                message: "Payment Image added successfully",
+                variant: "success",
+              });
+            } else {
+              addNotification({
+                message: "Error: unable to save image",
+                variant: "error",
+              });
+            }
+            setImageUploading(false);
+          });
+        }
+      }
+    },
+  });
+
   return (
     <div className="divide-y divide-black/5">
       <div className="grid max-w-7xl grid-cols-1 gap-x-8 gap-y-10 px-4 py-4 md:py-8 sm:px-6 md:grid-cols-3 lg:px-8">
@@ -146,102 +286,155 @@ function ProfileView({ index }: { index: string }) {
             Use a permanent address where you can receive mail.
           </p>
         </div>
+        {/* {JSON.stringify(user)} */}
 
-        <form className="md:col-span-2">
+        <form onSubmit={formik.handleSubmit} className="md:col-span-2">
           <div className="grid grid-cols-1 gap-x-6 gap-y-8 sm:max-w-xl sm:grid-cols-6">
             <div className="col-span-full flex items-center gap-x-8">
-              <img
-                src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                alt=""
-                className="h-24 w-24 flex-none rounded-lg bg-gray-800 object-cover"
-              />
+              {isImgUploading ? (
+                <div role="status" className="h-24 w-24   animate-pulse  ">
+                  <div className=" flex items-center justify-center flex-none h-24 w-24  rounded-lg bg-gray-800 object-cover">
+                    <svg
+                      className="w-10 h-10 text-gray-200 dark:text-gray-600"
+                      aria-hidden="true"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="currentColor"
+                      viewBox="0 0 20 18"
+                    >
+                      <path d="M18 0H2a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2Zm-5.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm4.376 10.481A1 1 0 0 1 16 15H4a1 1 0 0 1-.895-1.447l3.5-7A1 1 0 0 1 7.468 6a.965.965 0 0 1 .9.5l2.775 4.757 1.546-1.887a1 1 0 0 1 1.618.1l2.541 4a1 1 0 0 1 .028 1.011Z" />
+                    </svg>
+                  </div>
+
+                  <span className="sr-only">Loading...</span>
+                </div>
+              ) : formik.values.imageUrl ? (
+                <img
+                  src={formik.values.imageUrl}
+                  alt=""
+                  className="h-24 w-24 flex-none rounded-lg bg-gray-800 object-cover"
+                />
+              ) : (
+                <div className=" flex items-center justify-center flex-none h-24 w-24  rounded-lg bg-gray-800 object-cover">
+                  <svg
+                    className="w-10 h-10 text-gray-200 dark:text-gray-600"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="currentColor"
+                    viewBox="0 0 20 18"
+                  >
+                    <path d="M18 0H2a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2Zm-5.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm4.376 10.481A1 1 0 0 1 16 15H4a1 1 0 0 1-.895-1.447l3.5-7A1 1 0 0 1 7.468 6a.965.965 0 0 1 .9.5l2.775 4.757 1.546-1.887a1 1 0 0 1 1.618.1l2.541 4a1 1 0 0 1 .028 1.011Z" />
+                  </svg>
+                </div>
+              )}
+
               <div>
                 <button
                   type="button"
+                  onClick={open}
                   className="rounded-md bg-black/10 px-3 py-2 text-sm font-semibold text-black shadow-sm hover:bg-black/20"
                 >
                   Change avatar
                 </button>
+
                 <p className="mt-2 text-xs leading-5 text-gray-400">
                   JPG, GIF or PNG. 1MB max.
                 </p>
               </div>
             </div>
 
-            <div className="sm:col-span-4">
+            <div className="col-span-full">
               <label
-                htmlFor="username"
+                htmlFor="fname"
                 className="block text-sm font-medium leading-6 text-gray-900"
               >
-                Username
+                First Name
               </label>
               <div className="mt-2">
-                <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
-                  <input
-                    type="text"
-                    name="username"
-                    id="username"
-                    autoComplete="username"
-                    className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
-                    placeholder="janesmith"
-                  />
-                </div>
+                <input
+                  id="fname"
+                  type="text"
+                  autoCapitalize="given-name"
+                  {...formik.getFieldProps("fname")}
+                  className={
+                    "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset   ring-1ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600  focus:text-secondary-dark sm:text-sm sm:leading-6" +
+                    "focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 " +
+                    (formik.errors["fname"] && formik.touched["fname"]
+                      ? "border-red-500" // You can add a specific className for error state
+                      : "")
+                  }
+                />
+                {formik.errors["fname"] && formik.touched["fname"] && (
+                  <div className="text-red-500 text-sm mt-1">
+                    {formik.errors["fname"]}
+                  </div>
+                )}
+              </div>
+            </div>
+            <div className="col-span-full">
+              <label
+                htmlFor="lname"
+                className="block text-sm font-medium leading-6 text-gray-900"
+              >
+                Last Name
+              </label>
+              <div className="mt-2">
+                <input
+                  id="lname"
+                  {...formik.getFieldProps("lname")}
+                  type="text"
+                  autoComplete="family-name"
+                  className={
+                    "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset   ring-1ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600  focus:text-secondary-dark sm:text-sm sm:leading-6" +
+                    "focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 " +
+                    (formik.errors["lname"] && formik.touched["lname"]
+                      ? "border-red-500" // You can add a specific className for error state
+                      : "")
+                  }
+                />
+                {formik.errors["lname"] && formik.touched["lname"] && (
+                  <div className="text-red-500 text-sm mt-1">
+                    {formik.errors["lname"]}
+                  </div>
+                )}
+              </div>
+            </div>
+            <div className="col-span-full">
+              <label
+                htmlFor="email"
+                className="block text-sm font-medium leading-6 text-gray-900"
+              >
+                Email address
+              </label>
+              <div className="mt-2">
+                <input
+                  id="email"
+                  type="email"
+                  autoComplete="email"
+                  {...formik.getFieldProps("email")}
+                  className={
+                    "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset   ring-1ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600  focus:text-secondary-dark sm:text-sm sm:leading-6" +
+                    "focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 " +
+                    (formik.errors["email"] && formik.touched["email"]
+                      ? "border-red-500" // You can add a specific className for error state
+                      : "")
+                  }
+                />
+                {formik.errors["email"] && formik.touched["email"] && (
+                  <div className="text-red-500 text-sm mt-1">
+                    {formik.errors["email"]}
+                  </div>
+                )}
               </div>
             </div>
 
-            <div className="col-span-full">
-              <label
-                htmlFor="username"
-                className="block text-sm font-medium leading-6 text-black"
+            <div className="mt-8 flex">
+              <button
+                type="submit"
+                className="rounded-md bg-primary px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-primary-dark focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
               >
-                Username
-              </label>
-
-              {/* <div className="mt-2">
-                <div className="flex rounded-md bg-black/5 ring-1 ring-inset ring-black/10 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-500">
-                  <span className="flex select-none items-center pl-3 text-gray-400 sm:text-sm">
-                    example.com/
-                  </span>
-                  <input
-                    type="text"
-                    name="username"
-                    id="username"
-                    autoComplete="username"
-                    className="flex-1 border-0 bg-transparent py-1.5 pl-1 text-black focus:ring-0 sm:text-sm sm:leading-6"
-                    placeholder="janesmith"
-                  />
-                </div>
-              </div> */}
+                update
+              </button>
             </div>
-
-            <div className="col-span-full">
-              <label
-                htmlFor="timezone"
-                className="block text-sm font-medium leading-6 text-black"
-              >
-                Timezone
-              </label>
-              <div className="mt-2">
-                <select
-                  id="timezone"
-                  name="timezone"
-                  className="block w-full rounded-md border-0 bg-black/5 py-1.5 text-black shadow-sm ring-1 ring-inset ring-black/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6 [&_*]:text-black"
-                >
-                  <option>Pacific Standard Time</option>
-                  <option>Eastern Standard Time</option>
-                  <option>Greenwich Mean Time</option>
-                </select>
-              </div>
-            </div>
-          </div>
-
-          <div className="mt-8 flex">
-            <button
-              type="submit"
-              className="rounded-md bg-primary px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-primary-dark focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
-            >
-              Save
-            </button>
           </div>
         </form>
       </div>
@@ -457,8 +650,7 @@ function AddItemAction() {
     <Menu.Button
       as={Link}
       href={routes.home.addProductListing}
-      // onClick={dialog.handleOpen}
-      className="group inline-flex justify-center text-sm font-medium text-primary hover:text-primary-dark py-3 px-2"
+      className="p-3 group inline-flex justify-center text-sm font-medium text-primary hover:text-primary-dark py-3 px-2"
     >
       <b>Add</b>
       <svg

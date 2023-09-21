@@ -1,12 +1,14 @@
 "use client";
-import { AuthContext } from "@/context/auth";
+import { routes } from "@/config";
+import { AuthContext } from "@/context/auth/context";
 import { useDrawer } from "@/hook/use-drawer";
+import Link from "next/link";
 import { useContext, useState } from "react";
 
 const currencies = ["IPAM", "FBC", "LIMKOKWING", "UNIMTEC", "BLUE CREST"];
 
 export default function UpperHeader() {
-  const { isAuthorized } = useContext(AuthContext);
+  const { isUserLoggedIn } = useContext(AuthContext);
 
   const [isShowing, setIsShowing] = useState(false);
 
@@ -53,21 +55,23 @@ export default function UpperHeader() {
           Get free delivery on orders over $100
         </p>
 
-        <div className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6">
-          <a
-            href="#"
-            className="text-sm font-medium text-white hover:text-gray-100"
-          >
-            Create an account
-          </a>
-          <span className="h-6 w-px bg-gray-600" aria-hidden="true" />
-          <a
+        {!isUserLoggedIn() && (
+          <div className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6">
+            <Link
+              href={routes.auth.signup}
+              className="text-sm font-medium text-white hover:text-gray-100"
+            >
+              Create an account
+            </Link>
+            {/* <span className="h-6 w-px bg-gray-600" aria-hidden="true" /> */}
+            {/* <a
             href="#"
             className="text-sm font-medium text-white hover:text-gray-100"
           >
             Sign in
-          </a>
-        </div>
+          </a> */}
+          </div>
+        )}
       </div>
     </div>
   );
